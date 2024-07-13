@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\garage\AuthController as GarageAuthController;
 use App\Http\Controllers\Api\montir\AuthController as MontirAuthController;
 use App\Http\Controllers\Api\user\AddressController;
 use App\Http\Controllers\Api\user\AuthController;
+use App\Http\Controllers\Api\user\HistoryController;
 use App\Http\Controllers\Api\user\MotorcycleController;
 use App\Http\Controllers\Api\user\PanggilServiceController;
 use Illuminate\Http\Request;
@@ -15,6 +16,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::post('/user/register', [AuthController::class, 'register']);
+Route::post('/user/is-email-exist', [AuthController::class, 'isEmailExist']);
 Route::post('/garage/register', [GarageAuthController::class, 'register']);
 Route::post('/montir/register', [MontirAuthController::class, 'register']);
 
@@ -40,5 +42,7 @@ Route::group(['middleware' => 'auth:sanctum'], function ($router) {
     Route::get('/user/get-list-address', [AddressController::class, 'index']);
     Route::post('/user/store-address', [AddressController::class, 'store']);
     Route::post('/user/update-address/{id}', [AddressController::class, 'update']);
-    Route::post('/user/delete-address/{id}', [AddressController::class, 'destroy']);
+    Route::delete('/user/delete-address/{id}', [AddressController::class, 'destroy']);
+
+    Route::get('/user/get-history-order', [HistoryController::class, 'index']); 
 });

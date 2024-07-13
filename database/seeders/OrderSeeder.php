@@ -22,10 +22,13 @@ class OrderSeeder extends Seeder
             "payment_id"=> 1,
             "order_date"=> now(),
             "booked_date"=> "2024-07-01 15:00:00",
-            "service_fee"=> 200000,
+            "service_fee"=> 450000,
             "issue"=> "Servis rutin dan ganti oli",
             "notes"=> "Kalo sudah sampai telfon aja yaa",
             "status"=> "ongoing",
+            "address"=> "Jl. Borobudur Agung Tim. VII No.35, Mojolangu, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142",
+            "latitude"=> "-6.199722",
+            "longitude"=> "107.022883",
         ]);
     }
 }

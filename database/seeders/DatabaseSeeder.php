@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             PaymentSeeder::class,
             OrderSeeder::class,
             RatingGarageSeeder::class,
+            OrderDetailSeeder::class,
         ]);
     }
 }

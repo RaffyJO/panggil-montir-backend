@@ -78,5 +78,104 @@ class GarageSeeder extends Seeder
             'longitude' => '107.029055',
             'photo' => 'garage5.jpg',
         ]);
+
+        Garage::create([
+            'name' => 'Bengkel Jaya Motor',
+            'email' => 'garage6@example.com',
+            'password' => bcrypt('password6'),
+            'phone' => '081234567890',
+            'address' => 'Jl. Raya Perjuangan No.10, RT.001/RW.002, Kebalen, Kec. Babelan, Bekasi, Jawa Barat 17610',
+            'latitude' => '-6.193503',
+            'longitude' => '107.021176',
+            'photo' => 'garage6.jpg',
+        ]);
+
+        Garage::create([
+            'name' => 'Bengkel Maju Jaya',
+            'email' => 'garage7@example.com',
+            'password' => bcrypt('password7'),
+            'phone' => '081278965432',
+            'address' => 'Jl. Pahlawan No.8, RT.002/RW.003, Kebalen, Kec. Babelan, Bekasi, Jawa Barat 17610',
+            'latitude' => '-6.195342',
+            'longitude' => '107.023981',
+            'photo' => 'garage7.jpg',
+        ]);
+
+        Garage::create([
+            'name' => 'Bengkel Baru Motor',
+            'email' => 'garage8@example.com',
+            'password' => bcrypt('password8'),
+            'phone' => '081289765432',
+            'address' => 'Jl. Surya Kencana No.12, RT.003/RW.004, Kebalen, Kec. Babelan, Bekasi, Jawa Barat 17610',
+            'latitude' => '-6.197543',
+            'longitude' => '107.026754',
+            'photo' => 'garage8.jpg',
+        ]);
+
+        Garage::create([
+            'name' => 'Bengkel Motor Terbaik',
+            'email' => 'garage9@example.com',
+            'password' => bcrypt('password9'),
+            'phone' => '081278976543',
+            'address' => 'Jl. Melati No.5, RT.004/RW.005, Kebalen, Kec. Babelan, Bekasi, Jawa Barat 17610',
+            'latitude' => '-6.199765',
+            'longitude' => '107.028976',
+            'photo' => 'garage9.jpg',
+        ]);
+
+        Garage::create([
+            'name' => 'Bengkel Motor Sejahtera',
+            'email' => 'garage10@example.com',
+            'password' => bcrypt('password10'),
+            'phone' => '081234567890',
+            'address' => 'Jl. Karya No.6, RT.005/RW.006, Kebalen, Kec. Babelan, Bekasi, Jawa Barat 17610',
+            'latitude' => '-6.201234',
+            'longitude' => '107.031234',
+            'photo' => 'garage10.jpg',
+        ]);
+
+        Garage::create([
+            'name' => 'Bengkel Motor Berkat Jaya',
+            'email' => 'garage11@example.com',
+            'password' => bcrypt('password11'),
+            'phone' => '081278903210',
+            'address' => 'Jl. Wijaya Kusuma No.7, RT.006/RW.007, Kebalen, Kec. Babelan, Bekasi, Jawa Barat 17610',
+            'latitude' => '-6.203456',
+            'longitude' => '107.033456',
+            'photo' => 'garage11.jpg',
+        ]);
+
+        Garage::create([
+            'name' => 'Bengkel Motor Rizki Jaya',
+            'email' => 'garage12@example.com',
+            'password' => bcrypt('password12'),
+            'phone' => '081290876543',
+            'address' => 'Jl. Karya Jasa No.8, RT.007/RW.008, Kebalen, Kec. Babelan, Bekasi, Jawa Barat 17610',
+            'latitude' => '-6.205678',
+            'longitude' => '107.035678',
+            'photo' => 'garage12.jpg',
+        ]);
+
+        Garage::create([
+            'name' => 'Bengkel Motor Berkah Jaya',
+            'email' => 'garage13@example.com',
+            'password' => bcrypt('password13'),
+            'phone' => '081290876543',
+            'address' => 'Jl. Karya Jasa No.8, RT.007/RW.008, Kebalen, Kec. Babelan, Bekasi, Jawa Barat 17610',
+            'latitude' => '-6.207890',
+            'longitude' => '107.037890',
+            'photo' => 'garage13.jpg',
+        ]);
+
+        Garage::create([
+            'name' => 'Bengkel Motor Amanah Jaya',
+            'email' => 'garage14@example.com',
+            'password' => bcrypt('password14'),
+            'phone' => '081290876543',
+            'address' => 'Jl. Karya Jasa No.8, RT.007/RW.008, Kebalen, Kec. Babelan, Bekasi, Jawa Barat 17610',
+            'latitude' => '-6.209012',
+            'longitude' => '107.039012',
+            'photo' => 'garage14.jpg',
+        ]);
     }
 }

@@ -18,11 +18,11 @@ use Illuminate\Http\Request;
 
 class PanggilServiceController extends Controller
 {
-    public function getGaragesByUserLocation()
+    public function getGaragesByUserLocation(Request $request)
     {
         try {
             $user = auth()->user();
-            
+
             // Mengambil alamat pengguna yang memiliki is_selected bernilai true
             $selectedAddress = $user->addresses->where('is_selected', true)->first();
 
@@ -37,13 +37,16 @@ class PanggilServiceController extends Controller
                 ], 400);
             }
 
-            $garages = Garage::select(
+            $perPage = 10; // Jumlah data per halaman
+            $page = $request->input('page', 1); // Halaman saat ini, default ke 1 jika tidak ada
+
+            $garagesQuery = Garage::select(
                 'id',
-                'name', 
-                'email', 
-                'phone', 
-                'address', 
-                'latitude', 
+                'name',
+                'email',
+                'phone',
+                'address',
+                'latitude',
                 'longitude',
                 'photo',
                 DB::raw("ROUND(6371 * acos(cos(radians($latitude)) 
@@ -52,25 +55,26 @@ class PanggilServiceController extends Controller
                     + sin(radians($latitude)) 
                     * sin(radians(latitude))), 2) AS distance")
             )
-            ->orderBy('distance')
-            ->get();
+            ->orderBy('distance');
+
+            $garages = $garagesQuery->paginate($perPage, ['*'], 'page', $page);
 
             // Menghitung startPrice untuk setiap garage
-            $garagesWithPrice = $garages->map(function ($garage) {
+            $garagesWithPrice = $garages->getCollection()->map(function ($garage) {
                 // Menghitung rata-rata rating
                 $averageRating = RatingGarage::where('garage_id', $garage->id)->where('is_done', true)->avg('rating');
 
                 // Mengambil harga layanan terendah
                 $startPrice = Service::where('garage_id', $garage->id)->min('price');
- 
+
                 // Mengambil jam operasional hari ini
                 $operasionalHours = OperasionalHour::select('day', 'start_time', 'end_time')
-                ->where('garage_id', $garage->id)
-                ->get();
+                    ->where('garage_id', $garage->id)
+                    ->get();
 
                 $services = Service::select('id', 'name', 'price', 'description', 'is_available')
-                ->where('garage_id', $garage->id)->get();
- 
+                    ->where('garage_id', $garage->id)->get();
+
                 // Menambahkan informasi tambahan ke objek $garage
                 $garage->average_rating = round($averageRating, 1);
                 $garage->start_price = $startPrice;
@@ -83,9 +87,12 @@ class PanggilServiceController extends Controller
                 'status' => 'success',
                 'message' => 'Get garages success',
                 'data' => $garagesWithPrice,
+                'current_page' => $garages->currentPage(),
+                'last_page' => $garages->lastPage(),
+                'total' => $garages->total(),
             ], 200);
 
-         } catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Terjadi kesalahan saat memproses permintaan.',

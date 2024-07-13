@@ -117,4 +117,19 @@ class AuthController extends Controller
             ]
         ], 200);
     }
+
+    public function isEmailExist(Request $request)
+    {
+        $validateData = Validator::make($request->only('email'), [
+            'email' => 'required|email'
+        ]);
+
+        if ($validateData->fails()) {
+            return response()->json(['error' => $validateData->messages()], 400);
+        }
+
+        $isExist = User::where('email', $request->email)->exists();
+
+        return response()->json(['is_email_exist' => $isExist]);
+    }
 }
