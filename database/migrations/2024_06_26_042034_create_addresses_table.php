@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('latitude');
             $table->string('longitude');
             $table->string('notes')->nullable();
-            $table->boolean('is_selected')->default(true);
+            $table->boolean('is_selected')->default(false);
             $table->timestamps();
         });
     }

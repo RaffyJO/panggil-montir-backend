@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->foreignId('order_type_id')->constrained('order_types');
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('motorcycle_id')->constrained('motorcycles');
+            $table->foreignId('motorcycle_id')->nullable()->constrained('motorcycles');
             $table->foreignId('garage_id')->nullable()->constrained('garages');
             $table->foreignId('montir_id')->nullable()->constrained('montirs');
-            $table->foreignId('payment_id')->constrained('payments');
+            $table->foreignId('payment_id')->nullable()->constrained('payments');
             $table->dateTime('order_date');
             $table->dateTime('booked_date')->nullable();
             $table->dateTime('completed_date')->nullable();
@@ -30,7 +30,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('latitude');
             $table->string('longitude');
-            $table->enum('status', ['ongoing', 'cancelled', 'completed'])->default('ongoing');
+            $table->enum('status', ['started', 'ongoing', 'cancelled', 'completed'])->default('ongoing');
             $table->timestamps();
         });
     }

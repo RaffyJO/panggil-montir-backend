@@ -4,17 +4,14 @@ namespace App\Http\Controllers\Api\user;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use App\Models\OrderType;
 use Illuminate\Http\Request;
 
 class HistoryController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         try {
             $user = auth()->user();
-            $perPage = 10; // Jumlah data per halaman
-            $page = $request->input('page', 1); // Halaman saat ini, default ke 1 jika tidak ada
 
             $history = Order::with([
                 'orderType',
@@ -24,7 +21,7 @@ class HistoryController extends Controller
                 'montir',
                 'payment',
                 'services.service'
-            ])->where('user_id', $user->id)->paginate($perPage, ['*'], 'page', $page);
+            ])->where('user_id', $user->id)->get();
 
             $historyWithDetails = $history->map(function($order) {
                 return [
@@ -51,30 +48,51 @@ class HistoryController extends Controller
                         'name' => $order->garage->name,
                         'address' => $order->garage->address,
                         'phone' => $order->garage->phone,
-                    ] : null,
+                    ] : [
+                        'name' => '',
+                        'address' => '',
+                        'phone' => '',
+                    ] ,
                     'motorcycle' => $order->motorcycle ? [
                         'license_plate' => $order->motorcycle->license_plate,
                         'brand' => $order->motorcycle->brand,
                         'type' => $order->motorcycle->type,
                         'variant' => $order->motorcycle->variant,
                         'production_year' => $order->motorcycle->production_year,
-                    ] : null,
+                    ] : [
+                        'license_plate' => '',
+                        'brand' => '',
+                        'type' => '',
+                        'variant' => '',
+                        'production_year' => '',
+                    ],
                     'montir' => $order->montir ? [
                         'name' => $order->montir->name,
                         'phone' => $order->montir->phone,
                         'photo' => $order->montir->photo,
-                    ] : null,
+                    ] : [
+                        'name' => '',
+                        'phone' => '',
+                        'photo' => '',
+                    ],
                     'payment' => $order->payment ? [
                         'code' => $order->payment->code,
                         'name' => $order->payment->name,
                         'thumbnail' => $order->payment->thumbnail,
-                    ] : null,
+                    ] : [
+                        'code' => '',
+                        'name' => '',
+                        'thumbnail' => '',
+                    ] ,
                     'services' => $order->services ? $order->services->map(function($orderDetail) {
                         return [
                             'service_name' => $orderDetail->service->name,
                             'price' => $orderDetail->service->price,
                         ];
-                    }) : null,
+                    }) :  [
+                        'service_name' => '',
+                        'price' => 0,
+                    ],
                 ];
             });
 
@@ -82,9 +100,6 @@ class HistoryController extends Controller
                 'status' => 'success',
                 'message' => 'Get history success',
                 'data' => $historyWithDetails,
-                'current_page' => $history->currentPage(),
-                'last_page' => $history->lastPage(),
-                'total' => $history->total(),
             ], 200);
 
         } catch (\Exception $e) {

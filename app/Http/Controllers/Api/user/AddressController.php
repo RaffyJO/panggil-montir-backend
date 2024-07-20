@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\user;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
 use Illuminate\Http\Request;
 
 class AddressController extends Controller
@@ -32,14 +33,38 @@ class AddressController extends Controller
     {
         try {
             $user = auth()->user();
-            $address = $request->all();
+            $address = $request->validate([
+                'title' => 'required|string',
+                'description' => 'required|string',
+                'latitude' => 'required|string',
+                'longitude' => 'required|string',
+                'notes' => 'nullable|string',
+            ]);
 
-            $user->addresses->create($address);
+            $isSelected = false;
+            if ($user->addresses->count() == 0) {
+                $isSelected = true;
+            }
+
+            $notes = null;
+            if ($address['notes'] != null) {
+                $notes = $address['notes'];
+            }
+
+            $newAddress = Address::create([
+                'user_id' => $user->id,
+                'title' => $address['title'],
+                'description' => $address['description'],
+                'latitude' => $address['latitude'],
+                'longitude' => $address['longitude'],
+                'notes' => $notes,
+                'is_selected' => $isSelected,
+            ]);
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'Save address success',
-                'data' => $address,
+                'data' => $newAddress,
             ], 200);
 
         } catch (\Exception $e) {

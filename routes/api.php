@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\user\AddressController;
 use App\Http\Controllers\Api\user\AuthController;
 use App\Http\Controllers\Api\user\HistoryController;
 use App\Http\Controllers\Api\user\MotorcycleController;
+use App\Http\Controllers\Api\user\PanggilDaruratController;
 use App\Http\Controllers\Api\user\PanggilServiceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -45,4 +46,6 @@ Route::group(['middleware' => 'auth:sanctum'], function ($router) {
     Route::delete('/user/delete-address/{id}', [AddressController::class, 'destroy']);
 
     Route::get('/user/get-history-order', [HistoryController::class, 'index']); 
+
+    Route::post('/user/find-montir', [PanggilDaruratController::class, 'findMontir']);
 });

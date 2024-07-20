@@ -25,7 +25,7 @@ class OrderSeeder extends Seeder
             "service_fee"=> 450000,
             "issue"=> "Servis rutin dan ganti oli",
             "notes"=> "Kalo sudah sampai telfon aja yaa",
-            "status"=> "ongoing",
+            "status"=> "completed",
             "address"=> "Jl. Borobudur Agung Tim. VII No.35, Mojolangu, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142",
             "latitude"=> "-6.199722",
             "longitude"=> "107.022883",
