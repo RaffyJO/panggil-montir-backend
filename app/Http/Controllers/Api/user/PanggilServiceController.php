@@ -224,6 +224,7 @@ class PanggilServiceController extends Controller
         try {
             $user = auth()->user();
             $data = $request->all();
+            $address = $user->addresses->where('is_selected', true)->first();
 
             $validateData = Validator::make($data, [
                 'garage_id' => 'required|exists:garages,id',
@@ -232,9 +233,6 @@ class PanggilServiceController extends Controller
                 'service_fee' => 'required|numeric',
                 'issue' => 'required|string',
                 'notes' => 'nullable|string',
-                'address' => 'required|string',
-                'latitude' => 'required|numeric',
-                'longitude' => 'required|numeric',
             ]);
 
             if ($validateData->fails()) {
@@ -259,9 +257,9 @@ class PanggilServiceController extends Controller
                     'service_fee' => $data['service_fee'],
                     'issue' => $data['issue'],
                     'notes' => $data['notes'],
-                    'address' => $data['address'],
-                    'latitude' => $data['latitude'],
-                    'longitude' => $data['longitude'],
+                    'address' => $address->description,
+                    'latitude' => $address->latitude,
+                    'longitude' => $address->longitude,
                     'status' => 'ongoing',
                 ]);
 

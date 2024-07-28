@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('motorcycles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('brand_id')->constrained('brands');
+            $table->foreignId('type_id')->constrained('types');
+            $table->foreignId('variant_id')->constrained('variants');
+            $table->foreignId('production_year_id')->constrained('production_years');
             $table->string('license_plate');
-            $table->string('brand');
-            $table->string('type');
-            $table->string('variant');
-            $table->string('production_year');
-            $table->boolean('is_selected')->default(true);
+            $table->boolean('is_selected')->default(false);
             $table->timestamps();
         });
     }

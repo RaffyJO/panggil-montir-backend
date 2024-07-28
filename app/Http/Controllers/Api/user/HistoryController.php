@@ -21,7 +21,7 @@ class HistoryController extends Controller
                 'montir',
                 'payment',
                 'services.service'
-            ])->where('user_id', $user->id)->get();
+            ])->where('user_id', $user->id)->orderBy('order_date', 'desc')->get();
 
             $historyWithDetails = $history->map(function($order) {
                 return [

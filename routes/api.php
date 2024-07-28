@@ -4,10 +4,13 @@ use App\Http\Controllers\Api\garage\AuthController as GarageAuthController;
 use App\Http\Controllers\Api\montir\AuthController as MontirAuthController;
 use App\Http\Controllers\Api\user\AddressController;
 use App\Http\Controllers\Api\user\AuthController;
+use App\Http\Controllers\Api\user\BrandController;
 use App\Http\Controllers\Api\user\HistoryController;
 use App\Http\Controllers\Api\user\MotorcycleController;
 use App\Http\Controllers\Api\user\PanggilDaruratController;
 use App\Http\Controllers\Api\user\PanggilServiceController;
+use App\Http\Controllers\Api\user\TypeController;
+use App\Http\Controllers\Api\user\VariantController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Monolog\Handler\RotatingFileHandler;
@@ -48,4 +51,8 @@ Route::group(['middleware' => 'auth:sanctum'], function ($router) {
     Route::get('/user/get-history-order', [HistoryController::class, 'index']); 
 
     Route::post('/user/find-montir', [PanggilDaruratController::class, 'findMontir']);
+
+    Route::get('/user/get-brands', [BrandController::class, 'index']);
+    Route::get('/user/get-types/{id}', [TypeController::class, 'index']);
+    Route::get('/user/get-variants/{id}', [VariantController::class, 'index']);
 });

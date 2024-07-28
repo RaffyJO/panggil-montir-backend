@@ -16,19 +16,19 @@ class MotorcycleSeeder extends Seeder
         Motorcycle::create([
             'user_id' => 1,
             'license_plate' => 'B 5216 KHY',
-            'brand' => 'Honda',
-            'type' => 'Vario',
-            'variant' => 'Matic',
-            'production_year' => '2020',
+            'brand_id' => 1,
+            'type_id' => 1,
+            'variant_id' => 1,
+            'production_year_id' => 1,
             'is_selected' => true,
         ]);
         Motorcycle::create([
             'user_id' => 1,
             'license_plate' => 'N 4323 JIK',
-            'brand' => 'Yamaha',
-            'type' => 'Nmax',
-            'variant' => 'Matic',
-            'production_year' => '2021',
+            'brand_id' => 1,
+            'type_id' => 2,
+            'variant_id' => 2,
+            'production_year_id' => 2,
             'is_selected' => false,
         ]);
     }

@@ -61,11 +61,17 @@ class AddressController extends Controller
                 'is_selected' => $isSelected,
             ]);
 
+            if ($isSelected) {
+                $newAddress->is_selected = 1;
+            } else {
+                $newAddress->is_selected = 0;
+            }
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Save address success',
                 'data' => $newAddress,
-            ], 200);
+            ], 201);
 
         } catch (\Exception $e) {
             return response()->json([
