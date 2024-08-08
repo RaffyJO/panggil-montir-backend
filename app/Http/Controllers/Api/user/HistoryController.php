@@ -58,7 +58,7 @@ class HistoryController extends Controller
                         'brand' => $order->motorcycle->brand,
                         'type' => $order->motorcycle->type,
                         'variant' => $order->motorcycle->variant,
-                        'production_year' => $order->motorcycle->production_year,
+                        'production_year' => $order->motorcycle->productionYear,
                     ] : [
                         'license_plate' => '',
                         'brand' => '',

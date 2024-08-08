@@ -32,14 +32,26 @@ class MotorcycleController extends Controller
     public function index(){
         try {
             $user = auth()->user();
-            $motorcycles = $user
-                ->motorcycles
-                ->select('id', 'license_plate', 'brand_id', 'type_id', 'variant_id', 'production_year_id', 'is_selected');
+            $motorcycles = Motorcycle::with('brand', 'type', 'variant', 'productionYear')
+                ->where('user_id', $user->id)
+                ->get();
+
+            $motorcyclesWithDetails = $motorcycles->map(function($motorcycle) {
+                return [
+                    'id' => $motorcycle->id,
+                    'license_plate' => $motorcycle->license_plate,
+                    'brand' => $motorcycle->brand,
+                    'type' => $motorcycle->type,
+                    'variant' => $motorcycle->variant,
+                    'production_year' => $motorcycle->productionYear,
+                    'is_selected' => $motorcycle->is_selected,
+                ];
+            });
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'Get motorcycles success',
-                'data' => $motorcycles,
+                'data' => $motorcyclesWithDetails,
             ], 200);
 
         } catch (\Exception $e) {
