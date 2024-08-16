@@ -91,18 +91,78 @@ class MotorcycleController extends Controller
                 'is_selected' => $isSelected,
             ]);
 
-            if ($isSelected) {
-                $newMotorcycle->is_selected = 1;
-            } else {
-                $newMotorcycle->is_selected = 0;
+            $motorcycleWithDetails = Motorcycle::with('brand', 'type', 'variant', 'productionYear')
+                ->where('user_id', $user->id)
+                ->where('id', $newMotorcycle->id)
+                ->first();
+
+            if ($motorcycleWithDetails) {
+                $motorcycleWithDetails = [
+                    'id' => $motorcycleWithDetails->id,
+                    'license_plate' => $motorcycleWithDetails->license_plate,
+                    'brand' => $motorcycleWithDetails->brand,
+                    'type' => $motorcycleWithDetails->type,
+                    'variant' => $motorcycleWithDetails->variant,
+                    'production_year' => $motorcycleWithDetails->productionYear,
+                    'is_selected' => $motorcycleWithDetails->is_selected,
+                ];
             }
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'Save motorcycle success',
-                'data' => $newMotorcycle,
+                'data' => $motorcycleWithDetails,
             ], 200);
 
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan saat memproses permintaan.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function changeSelected($id) {
+        try {
+            $user = auth()->user();
+            $motorcycles = $user->motorcycles;
+
+            $newSelectedMotorcycle = $motorcycles->where('id', $id)->first();
+
+            if ($newSelectedMotorcycle) {
+                $oldSelectedMotorcycle = $motorcycles->where('is_selected', 1)->first();
+                $oldSelectedMotorcycle->is_selected = 0;
+                $oldSelectedMotorcycle->save();
+                
+                $newSelectedMotorcycle->is_selected = 1;
+                $newSelectedMotorcycle->save();
+
+                $allMotorcycles = $user->motorcycles;
+
+                $motorcyclesWithDetails = $allMotorcycles->map(function($motorcycle) {
+                    return [
+                        'id' => $motorcycle->id,
+                        'license_plate' => $motorcycle->license_plate,
+                        'brand' => $motorcycle->brand,
+                        'type' => $motorcycle->type,
+                        'variant' => $motorcycle->variant,
+                        'production_year' => $motorcycle->productionYear,
+                        'is_selected' => $motorcycle->is_selected,
+                    ];
+                });
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Change selected motorcycle success',
+                    'data' => $motorcyclesWithDetails,
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Motorcycle not found'
+                ], 404);
+            }
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',

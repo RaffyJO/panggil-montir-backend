@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\user\HistoryController;
 use App\Http\Controllers\Api\user\MotorcycleController;
 use App\Http\Controllers\Api\user\PanggilDaruratController;
 use App\Http\Controllers\Api\user\PanggilServiceController;
+use App\Http\Controllers\Api\user\ProductionYearController;
 use App\Http\Controllers\Api\user\TypeController;
 use App\Http\Controllers\Api\user\VariantController;
 use Illuminate\Http\Request;
@@ -25,6 +26,7 @@ Route::post('/garage/register', [GarageAuthController::class, 'register']);
 Route::post('/montir/register', [MontirAuthController::class, 'register']);
 
 Route::post('/user/login', [AuthController::class, 'login']);
+Route::post('/user/google-login-or-signup', [AuthController::class, 'googleLoginOrSignup']);
 
 Route::group(['middleware' => 'auth:sanctum'], function ($router) {
     Route::get('/user/get-current-user', [AuthController::class, 'getCurrentUser']);
@@ -40,11 +42,13 @@ Route::group(['middleware' => 'auth:sanctum'], function ($router) {
     Route::get('/user/get-current-motorcycle', [MotorcycleController::class, 'getCurrentMotorcycle']);
     Route::get('/user/get-list-motorcycles', [MotorcycleController::class, 'index']);
     Route::post('/user/store-motorcycle', [MotorcycleController::class, 'store']);
+    Route::put('/user/change-selected-motorcycle/{id}', [MotorcycleController::class, 'changeSelected']);
     Route::post('/user/update-motorcycle/{id}', [MotorcycleController::class, 'update']);
     Route::post('/user/delete-motorcycle/{id}', [MotorcycleController::class, 'destroy']);
 
     Route::get('/user/get-list-address', [AddressController::class, 'index']);
     Route::post('/user/store-address', [AddressController::class, 'store']);
+    Route::put('/user/change-selected-address/{id}', [AddressController::class, 'changeSelected']);
     Route::post('/user/update-address/{id}', [AddressController::class, 'update']);
     Route::delete('/user/delete-address/{id}', [AddressController::class, 'destroy']);
 
@@ -55,4 +59,5 @@ Route::group(['middleware' => 'auth:sanctum'], function ($router) {
     Route::get('/user/get-brands', [BrandController::class, 'index']);
     Route::get('/user/get-types/{id}', [TypeController::class, 'index']);
     Route::get('/user/get-variants/{id}', [VariantController::class, 'index']);
+    Route::get('/user/get-production-years', [ProductionYearController::class, 'index']);
 });

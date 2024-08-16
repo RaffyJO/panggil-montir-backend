@@ -82,7 +82,44 @@ class AddressController extends Controller
         }
     }
 
-    public function update(Request $request, $id)    {
+    public function changeSelected($id) {
+        try {
+            $user = auth()->user();
+            $addresses = $user->addresses;
+
+            $newSelectedAddress = $addresses->where('id', $id)->first();
+
+            if ($newSelectedAddress) {
+                $oldSelectedAddress = $addresses->where('is_selected', 1)->first();
+                $oldSelectedAddress->is_selected = 0;
+                $oldSelectedAddress->save();
+               
+                $newSelectedAddress->is_selected = 1;
+                $newSelectedAddress->save();
+
+                $allAddresses = $user->addresses;
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Change selected address success',
+                    'data' => $allAddresses,
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Address not found'
+                ], 404);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan saat memproses permintaan.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function update(Request $request, $id) {
         try {
             $user = auth()->user();
             $address = $request->all();
