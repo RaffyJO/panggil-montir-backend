@@ -32,6 +32,7 @@ class HistoryController extends Controller
                         'booked_date' => $order->booked_date,
                         'completed_date' => $order->completed_date,
                         'service_fee' => $order->service_fee,
+                        'application_fee' => $order->application_fee,
                         'delivery_fee' => $order->delivery_fee,
                         'issue' => $order->issue,
                         'notes' => $order->notes,
@@ -61,10 +62,18 @@ class HistoryController extends Controller
                         'production_year' => $order->motorcycle->productionYear,
                     ] : [
                         'license_plate' => '',
-                        'brand' => '',
-                        'type' => '',
-                        'variant' => '',
-                        'production_year' => '',
+                        'brand' => [
+                            'name' => '',
+                        ],
+                        'type' => [
+                            'name' => '',
+                        ],
+                        'variant' => [
+                            'name' => '',
+                        ],
+                        'production_year' => [
+                            'year' => '',
+                        ],
                     ],
                     'montir' => $order->montir ? [
                         'name' => $order->montir->name,

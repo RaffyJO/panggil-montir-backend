@@ -24,6 +24,7 @@ return new class extends Migration
             $table->dateTime('booked_date')->nullable();
             $table->dateTime('completed_date')->nullable();
             $table->double('service_fee');
+            $table->double('application_fee')->nullable();
             $table->double('delivery_fee')->nullable();
             $table->string('issue');
             $table->string('notes')->nullable();

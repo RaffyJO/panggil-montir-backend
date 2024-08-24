@@ -16,4 +16,12 @@ class Service extends Model
         'price',
         'is_available',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'price' => 'integer',
+            'is_available' => 'integer',
+        ];
+    }
 }

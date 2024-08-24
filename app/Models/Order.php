@@ -21,6 +21,7 @@ class Order extends Model
         'booked_date',
         'completed_date',
         'service_fee',
+        'application_fee',
         'delivery_fee',
         'issue',
         'notes',
@@ -63,5 +64,15 @@ class Order extends Model
     public function services()
     {
         return $this->hasMany(OrderDetail::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'service_fee' => 'double',
+            'application_fee' => 'double',
+            'delivery_fee' => 'double',
+            'status' => 'string',
+        ];
     }
 }

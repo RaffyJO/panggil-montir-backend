@@ -55,6 +55,8 @@ Route::group(['middleware' => 'auth:sanctum'], function ($router) {
     Route::get('/user/get-history-order', [HistoryController::class, 'index']); 
 
     Route::post('/user/find-montir', [PanggilDaruratController::class, 'findMontir']);
+    Route::get('/user/get-current-order-darurat/{order_code}', [PanggilDaruratController::class, 'getCurrentOrder']);
+    Route::put('/user/cancel-order-darurat/{order_code}', [PanggilDaruratController::class, 'cancelOrder']);
 
     Route::get('/user/get-brands', [BrandController::class, 'index']);
     Route::get('/user/get-types/{id}', [TypeController::class, 'index']);

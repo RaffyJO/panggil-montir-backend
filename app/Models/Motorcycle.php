@@ -38,4 +38,11 @@ class Motorcycle extends Model
     {
         return $this->belongsTo(Variant::class);
     }
+
+    protected function casts(): array
+    {
+        return [
+            'is_selected' => 'integer',
+        ];
+    }
 }

@@ -36,4 +36,12 @@ class Garage extends Authenticatable
     {
         return $this->hasMany(RatingGarage::class);
     }
+
+    protected function casts(): array
+    {
+        return [
+            'distance' => 'double',
+            'start_price' => 'integer',
+        ];
+    }
 }

@@ -23,4 +23,11 @@ class Address extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    protected function casts(): array
+    {
+        return [
+            'is_selected' => 'integer',
+        ];
+    }
 }
