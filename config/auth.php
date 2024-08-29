@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'montir' => [
+            'driver' => 'sanctum',
+            'provider' => 'montirs',
+        ],
     ],
 
     /*
@@ -63,6 +68,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+
+        'montirs' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Montir::class,
         ],
 
         // 'users' => [

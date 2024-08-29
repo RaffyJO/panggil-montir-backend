@@ -16,7 +16,7 @@ class MontirSeeder extends Seeder
         Montir::create([
             "name"=> "Herman Tambal Ban",
             "email"=> "montir1@gmail.com",
-            "password"=> "123456",
+            "password"=> bcrypt('123456'),
             "phone"=> "081236787634",
             "licence_plate"=> "B 2833 HGJ",
             "latitude"=> "37.422902703083686",

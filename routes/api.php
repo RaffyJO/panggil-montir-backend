@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\garage\AuthController as GarageAuthController;
 use App\Http\Controllers\Api\montir\AuthController as MontirAuthController;
+use App\Http\Controllers\Api\montir\OrderController;
 use App\Http\Controllers\Api\user\AddressController;
 use App\Http\Controllers\Api\user\AuthController;
 use App\Http\Controllers\Api\user\BrandController;
@@ -28,6 +29,7 @@ Route::post('/montir/register', [MontirAuthController::class, 'register']);
 Route::post('/user/login', [AuthController::class, 'login']);
 Route::post('/user/google-login-or-signup', [AuthController::class, 'googleLoginOrSignup']);
 
+// User
 Route::group(['middleware' => 'auth:sanctum'], function ($router) {
     Route::get('/user/get-current-user', [AuthController::class, 'getCurrentUser']);
     Route::post('/user/logout', [AuthController::class, 'logout']);
@@ -62,4 +64,12 @@ Route::group(['middleware' => 'auth:sanctum'], function ($router) {
     Route::get('/user/get-types/{id}', [TypeController::class, 'index']);
     Route::get('/user/get-variants/{id}', [VariantController::class, 'index']);
     Route::get('/user/get-production-years', [ProductionYearController::class, 'index']);
+});
+
+// Montir
+Route::post('/montir/login', [MontirAuthController::class, 'login']);
+
+Route::group(['middleware' => 'auth:sanctum'], function ($router) {
+    Route::get('/montir/orders', [OrderController::class, 'listOrders']);
+    Route::post('/montir/accept-order', [OrderController::class, 'acceptOrder']);
 });

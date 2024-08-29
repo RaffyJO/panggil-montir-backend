@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\montir;
 
 use App\Http\Controllers\Controller;
+use App\Models\Montir;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -56,5 +57,49 @@ class AuthController extends Controller
             DB::rollBack();
             return response()->json(['message' => $th->getMessage()], 500);
         }
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        $validateData = Validator::Make($credentials, [
+            'email' => 'required|email:dns',
+            'password' => 'required|string:min:6',
+        ]);
+
+        if ($validateData->fails()) {
+            return response()->json(['error' => $validateData->messages()], 400);
+        }
+
+        $user = Montir::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Invalid credentials'
+            ], 401);
+        }
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Login success',
+            'data' => [
+                'user' => $user,
+                'token' => $token
+            ]
+        ], 200);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Logout success'
+        ], 200);
     }
 }

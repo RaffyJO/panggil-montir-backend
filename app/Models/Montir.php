@@ -12,6 +12,7 @@ class Montir extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
+        'id',
         'name',
         'email',
         'password',
@@ -21,4 +22,15 @@ class Montir extends Authenticatable
         'longitude',
         'photo',
     ];
+
+    protected $hidden = [
+        'password',
+        'created_at',
+        'updated_at',
+    ];
+
+    public function order()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
