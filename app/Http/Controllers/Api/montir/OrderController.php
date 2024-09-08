@@ -73,10 +73,10 @@ class OrderController extends Controller
                             'year' => '',
                         ],
                     ],
-                    'montir' => $order->montir ? [
-                        'name' => $order->montir->name,
-                        'phone' => $order->montir->phone,
-                        'photo' => $order->montir->photo,
+                    'customer' => $order->user ? [
+                        'name' => $order->user->name,
+                        'phone' => $order->user->phone,
+                        'photo' => $order->user->photo,
                     ] : [
                         'name' => '',
                         'phone' => '',

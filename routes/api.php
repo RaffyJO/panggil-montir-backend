@@ -70,6 +70,8 @@ Route::group(['middleware' => 'auth:sanctum'], function ($router) {
 Route::post('/montir/login', [MontirAuthController::class, 'login']);
 
 Route::group(['middleware' => 'auth:sanctum'], function ($router) {
+    Route::get('/montir/get-current-user', [MontirAuthController::class, 'getCurrentUser']);
+
     Route::get('/montir/orders', [OrderController::class, 'listOrders']);
     Route::post('/montir/accept-order', [OrderController::class, 'acceptOrder']);
 });

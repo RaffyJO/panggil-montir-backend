@@ -93,6 +93,27 @@ class AuthController extends Controller
         ], 200);
     }
 
+    public function getCurrentUser()
+    {
+        try {
+            $montir = auth('montir')->user();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Get current user success',
+                'data' => [
+                    'user'=> $montir
+                ]
+            ], 200);
+        }  catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan saat memproses permintaan.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
