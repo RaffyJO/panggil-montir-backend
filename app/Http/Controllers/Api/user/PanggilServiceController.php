@@ -31,10 +31,13 @@ class PanggilServiceController extends Controller
                 $latitude = $selectedAddress->latitude;
                 $longitude = $selectedAddress->longitude;
             } else {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Selected address not found for the user.',
-                ], 400);
+                $addressRequest = $request->validate([
+                    'latitude' => 'required|string',
+                    'longitude' => 'required|string',
+                ]);
+
+                $latitude = $addressRequest['latitude'];
+                $longitude = $addressRequest['longitude'];
             }
 
             $perPage = 10; // Jumlah data per halaman
@@ -101,13 +104,27 @@ class PanggilServiceController extends Controller
         }
     }
 
-    public function getAddressByIsSelected()
+    public function getAddressByIsSelected(Request $request)
     {
         try {
             $user = auth()->user();
             $userId = $user->id;
 
             $address = Address::where('user_id', $userId)->where('is_selected', true)->first();
+
+            if (!$address) {
+                $address = $request->validate([
+                    'description' => 'required|string',
+                    'latitude' => 'required|string',
+                    'longitude' => 'required|string',
+                ]);
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Get address success',
+                    'data' => $address,
+                ], 200);
+            }
 
             return response()->json([
                 'status' => 'success',

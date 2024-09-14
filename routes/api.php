@@ -34,8 +34,8 @@ Route::group(['middleware' => 'auth:sanctum'], function ($router) {
     Route::get('/user/get-current-user', [AuthController::class, 'getCurrentUser']);
     Route::post('/user/logout', [AuthController::class, 'logout']);
 
-    Route::get('/user/get-garages', [PanggilServiceController::class, 'getGaragesByUserLocation']);
-    Route::get('/user/get-current-address', [PanggilServiceController::class, 'getAddressByIsSelected']);
+    Route::post('/user/get-garages', [PanggilServiceController::class, 'getGaragesByUserLocation']);
+    Route::post('/user/get-current-address', [PanggilServiceController::class, 'getAddressByIsSelected']);
     Route::get('/user/get-services/{id}', [PanggilServiceController::class, 'getServicesByGarageId']);
     Route::get('/user/get-detail-garage/{id}', [PanggilServiceController::class, 'getDetailGarageById']);
     Route::get('/user/get-motorcycles', [PanggilServiceController::class, 'getMotorcyclesByUser']);
